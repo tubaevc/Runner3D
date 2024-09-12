@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5892720170612968796}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ObstacleSpawnRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4486163099655380046}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ObstacleSpawnMiddle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71,7 +71,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2748085411818738641}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: 5553518136646339039}
   - component: {fileID: 2289073096636508926}
   - component: {fileID: 6859106814793111841}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: GroundTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -144,6 +144,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obstaclePrefab: {fileID: 5536570850149739953, guid: 119aad40d51944f409466158e85fab31, type: 3}
+  coinPrefab: {fileID: 6124085709935763928, guid: 598b33d6551b2e74cab3f0d63c8815c4, type: 3}
 --- !u!65 &6859106814793111841
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -174,7 +175,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4829362107283351957}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ObstacleSpawnLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -208,7 +209,7 @@ GameObject:
   - component: {fileID: 5026630389442080735}
   - component: {fileID: 3983052305535581843}
   - component: {fileID: 6180236720909721597}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}

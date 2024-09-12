@@ -16,6 +16,11 @@ public class GroundSpawner : MonoBehaviour
     private void Start()
     {
         SpawnTile();
-        
+        SpawnTile();
+        SpawnTile();
+        SpawnTile();
+        SpawnTile();
+        SpawnTile();
+        SpawnTile();
     }
 }

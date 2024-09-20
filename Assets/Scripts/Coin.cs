@@ -5,25 +5,29 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
-    [SerializeField] private float turnSpeed = 90f;
+    public Transform playerTransform;
+    [SerializeField] private int coinValue = 1;
+
+    public virtual void Start()
+    {
+        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+    }
+
     private void OnTriggerEnter(Collider collider)
     {
-        if (collider.gameObject.GetComponent<Obstacle>()!=null)
+        if (collider.gameObject.GetComponent<Obstacle>() != null)
         {
             Destroy(gameObject);
             return;
         }
+
         if (collider.gameObject.name != "Player")
         {
             return;
         }
 
-        GameManager.instance.AddScore();
-        Destroy(gameObject);
-    }
 
-    private void Update()
-    {
-        transform.Rotate(0,0,turnSpeed*Time.deltaTime);
+        GameManager.instance.AddScore(coinValue);
+        Destroy(gameObject);
     }
 }

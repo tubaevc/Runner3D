@@ -814,6 +814,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   score: 0
   scoreText: {fileID: 120907699}
+  powerupText: {fileID: 336355852}
 --- !u!4 &1257586949
 Transform:
   m_ObjectHideFlags: 0
@@ -906,8 +907,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 545b085800f82464690b6f5250da8fdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multiplierUI: {fileID: 336355850}
-  multiplierText: {fileID: 336355852}
+  powerupText: {fileID: 336355852}
 --- !u!4 &1910260644
 Transform:
   m_ObjectHideFlags: 0
@@ -1274,8 +1274,13 @@ MonoBehaviour:
   magnetRadius: 15
   speedBoostMultiplier: 2
   speedBoostDuration: 3
-  normalSpeed: 35
+  normalSpeed: 50
   laneDistance: 5
+  speedIncreaseRate: 5
+  speedIncreaseInterval: 5
+  maxSpeed: 130
+  playerCollider: {fileID: 919132148098363953}
+  slideColliderOffset: 0.5
 --- !u!1 &980721565363806469
 GameObject:
   m_ObjectHideFlags: 0

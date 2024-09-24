@@ -5,18 +5,17 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MultiplierCoin : MonoBehaviour
+public class MultiplierCoin : Coin
 {
     [SerializeField] private float multiplierDuration = 10f;
     private Collider coinCollider;
     private MeshRenderer meshRenderer;
-    
-    // for 2x text
-    public static event Action<float> OnMultiplierActivated;
-    public static event Action OnMultiplierDeactivated;
+
+    [SerializeField] private float powerupDuration = 10f;
 
     private void Start()
     {
+        base.Start();
         coinCollider = GetComponent<Collider>();
         meshRenderer = GetComponentInChildren<MeshRenderer>();
     }
@@ -25,24 +24,10 @@ public class MultiplierCoin : MonoBehaviour
     {
         if (collider.gameObject.name == "Player")
         {
-            StartCoroutine(ActivateMultiplier());
+            GameManager.instance.ActivatePowerup(powerupDuration);
+            Destroy(gameObject);
             coinCollider.enabled = false;
             meshRenderer.enabled = false;
         }
-    }
-
-    private IEnumerator ActivateMultiplier()
-    {
-        GameManager.instance.SetScoreMultiplier(2);
-        Debug.Log("multiplier activated 2x"); 
-        OnMultiplierActivated?.Invoke(multiplierDuration);
-        
-        yield return new WaitForSeconds(multiplierDuration);
-
-        GameManager.instance.SetScoreMultiplier(1);
-        Debug.Log("multiplier deactivated 1x");
-        OnMultiplierDeactivated?.Invoke();
-        
-        Destroy(gameObject);
     }
 }

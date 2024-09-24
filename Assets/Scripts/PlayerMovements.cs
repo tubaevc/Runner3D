@@ -20,25 +20,42 @@ public class PlayerMovements : MonoBehaviour
     public float magnetRadius = 5f;
 
 
-    public float speedBoostMultiplier = 2.5f;
+    public float speedBoostMultiplier = 2f;
     public float speedBoostDuration = 7f;
     private bool isSpeedBoostActive = false;
 
     //for speedboost
     public float normalSpeed = 35f;
     private float currentSpeed;
-
+    private float originalSpeed;
 
     public float laneDistance = 5.0f;
     private int currentLane = 1; // 0 left, 1 middle, 2 right
 
     private float slideSpeed = 3f;
 
+    //speed increases as play
+    [SerializeField] private float speedIncreaseRate = 10f;
+    [SerializeField] private float speedIncreaseInterval = 5f;
+    [SerializeField] private float maxSpeed = 200f;
+    private float timeSinceLastSpeedIncrease;
+
+    //collider height settings for sliding
+    [SerializeField] private CapsuleCollider playerCollider;
+    private float originalColliderHeight;
+    private Vector3 originalColliderCenter;
+    private float slideColliderOffset = 0.5f;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         currentSpeed = normalSpeed;
+
+        if (playerCollider != null)
+        {
+            originalColliderHeight = playerCollider.height;
+            originalColliderCenter = playerCollider.center;
+        }
     }
 
     private void Update()
@@ -46,6 +63,16 @@ public class PlayerMovements : MonoBehaviour
         if (!alive)
         {
             return;
+        }
+
+        //speed increase
+        timeSinceLastSpeedIncrease += Time.deltaTime;
+
+        if (timeSinceLastSpeedIncrease >= speedIncreaseInterval && currentSpeed < maxSpeed)
+        {
+            currentSpeed += speedIncreaseRate;
+            Debug.Log(currentSpeed);
+            timeSinceLastSpeedIncrease = 0f;
         }
 
         if (Input.GetKeyDown(KeyCode.LeftArrow) && currentLane > 0)
@@ -78,14 +105,22 @@ public class PlayerMovements : MonoBehaviour
                 Debug.LogError("animator  not found for player");
             }
         }
-        
+
         if (Input.GetKeyDown(KeyCode.DownArrow) && isGrounded)
         {
             if (animator != null)
             {
                 animator.SetTrigger("Slide");
-                Vector3 slideDirection = transform.forward; 
-                rb.MovePosition(transform.position + slideDirection * Time.deltaTime * slideSpeed); 
+                playerCollider.height = originalColliderHeight / 2;
+                playerCollider.center = new Vector3(originalColliderCenter.x,
+                    originalColliderCenter.y - slideColliderOffset / 2, originalColliderCenter.z);
+
+
+                Vector3 slideDirection = transform.forward;
+                rb.MovePosition(transform.position + slideDirection * Time.deltaTime * slideSpeed);
+
+
+                StartCoroutine(ResetColliderAfterSlide());
             }
             else
             {
@@ -101,7 +136,13 @@ public class PlayerMovements : MonoBehaviour
         }
     }
 
-    
+    private IEnumerator ResetColliderAfterSlide()
+    {
+        yield return new WaitForSeconds(3f);
+
+        playerCollider.height = originalColliderHeight;
+        playerCollider.center = originalColliderCenter;
+    }
 
     private void CollectNearbyCoins()
     {
@@ -111,7 +152,7 @@ public class PlayerMovements : MonoBehaviour
             if (hitCollider.CompareTag("Coin"))
             {
                 hitCollider.transform.position = Vector3.MoveTowards(hitCollider.transform.position, transform.position,
-                    Time.deltaTime * 50f);
+                    Time.deltaTime * 70f);
             }
         }
     }
@@ -159,12 +200,13 @@ public class PlayerMovements : MonoBehaviour
         if (!isSpeedBoostActive)
         {
             isSpeedBoostActive = true;
-            currentSpeed = normalSpeed * speedBoostMultiplier;
+            originalSpeed = currentSpeed; // keep the speed
+            currentSpeed *= speedBoostMultiplier;
             StartCoroutine(DeactivateSpeedBoostAfterDelay());
         }
         else
         {
-            // if already yet refresh time
+            // if already refresh time
             StopCoroutine(DeactivateSpeedBoostAfterDelay());
             StartCoroutine(DeactivateSpeedBoostAfterDelay());
         }
@@ -174,7 +216,7 @@ public class PlayerMovements : MonoBehaviour
     {
         yield return new WaitForSeconds(speedBoostDuration);
         isSpeedBoostActive = false;
-        currentSpeed = normalSpeed;
+        currentSpeed = originalSpeed; // return the speed
     }
 
 

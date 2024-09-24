@@ -301,8 +301,10 @@ MonoBehaviour:
   - {fileID: 8751864119138948483, guid: 68f0a79d25f12c648ab585d78d25a2d7, type: 3}
   - {fileID: 1194190898186277537, guid: c055f26ffddfd5a478f34cb7ea67fc62, type: 3}
   coinPrefab: {fileID: 6124085709935763928, guid: 598b33d6551b2e74cab3f0d63c8815c4, type: 3}
-  spawnChance: 1
   laneDistance: 5
+  obstacleSpawnChance: 0.3
+  powerUpSpawnChance: 0.2
+  coinsToSpawn: 10
 --- !u!65 &6859106814793111841
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -406,23 +408,23 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4493970633874434903}
-  - {fileID: 4167501067015140691}
-  - {fileID: 2818915869880200432}
-  - {fileID: 5511712751633920646}
-  - {fileID: 3255993677412673774}
-  - {fileID: 32614054789648916}
-  - {fileID: 9109884884972382570}
-  - {fileID: 1249328572377857857}
-  - {fileID: 22161896941031163}
-  - {fileID: 8638725425349186904}
-  - {fileID: 3516962346517843703}
-  - {fileID: 6097009173991102889}
-  - {fileID: 1170364690334722160}
-  - {fileID: 7749611528711213435}
-  - {fileID: 3269092264009899096}
-  - {fileID: 4205524430467616869}
   - {fileID: 1539684931563797836}
+  - {fileID: 4205524430467616869}
+  - {fileID: 3269092264009899096}
+  - {fileID: 7749611528711213435}
+  - {fileID: 1170364690334722160}
+  - {fileID: 6097009173991102889}
+  - {fileID: 3516962346517843703}
+  - {fileID: 8638725425349186904}
+  - {fileID: 22161896941031163}
+  - {fileID: 1249328572377857857}
+  - {fileID: 9109884884972382570}
+  - {fileID: 32614054789648916}
+  - {fileID: 3255993677412673774}
+  - {fileID: 5511712751633920646}
+  - {fileID: 2818915869880200432}
+  - {fileID: 4167501067015140691}
+  - {fileID: 4493970633874434903}
   m_Father: {fileID: 5553518136646339039}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1313633856753824792
@@ -1427,7 +1429,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4709064888965862368, guid: 360d5822e57359447b9ce3d8a3b37532, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 10.499997
+      value: 13.9
       objectReference: {fileID: 0}
     - target: {fileID: 4709064888965862368, guid: 360d5822e57359447b9ce3d8a3b37532, type: 3}
       propertyPath: m_LocalPosition.y

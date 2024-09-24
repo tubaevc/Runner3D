@@ -7,7 +7,6 @@ public class Coin : MonoBehaviour
 {
     public Transform playerTransform;
     [SerializeField] private int coinValue = 1;
-
     public virtual void Start()
     {
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
@@ -25,7 +24,6 @@ public class Coin : MonoBehaviour
         {
             return;
         }
-
 
         GameManager.instance.AddScore(coinValue);
         Destroy(gameObject);

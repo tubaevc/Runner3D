@@ -297,9 +297,9 @@ MonoBehaviour:
   - {fileID: 2866597956441493351, guid: 22f5938a744b3174082e381acd6421a1, type: 3}
   - {fileID: 4345271599876077281, guid: 13f60aaa751c3d64a96b6459b38357d4, type: 3}
   powerUpPrefabs:
-  - {fileID: 3555131717932719584, guid: 6558fed6b304ad44fb0e919d64859002, type: 3}
   - {fileID: 8751864119138948483, guid: 68f0a79d25f12c648ab585d78d25a2d7, type: 3}
   - {fileID: 1194190898186277537, guid: c055f26ffddfd5a478f34cb7ea67fc62, type: 3}
+  - {fileID: 3555131717932719584, guid: 6558fed6b304ad44fb0e919d64859002, type: 3}
   coinPrefab: {fileID: 6124085709935763928, guid: 598b33d6551b2e74cab3f0d63c8815c4, type: 3}
   laneDistance: 5
   obstacleSpawnChance: 0.3
@@ -324,8 +324,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 21.37112, y: 10, z: 157.78902}
-  m_Center: {x: -0.49196434, y: 0, z: -5.018959}
+  m_Size: {x: 21.37112, y: 10, z: 157.789}
+  m_Center: {x: -0.4919643, y: 0, z: -5.018959}
 --- !u!64 &7269427951490694683
 MeshCollider:
   m_ObjectHideFlags: 0

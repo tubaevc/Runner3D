@@ -7,6 +7,10 @@ public class Coin : MonoBehaviour
 {
     public Transform playerTransform;
     [SerializeField] private int coinValue = 1;
+    private PlayerScore _playerScore;
+    [SerializeField] private GameObject coinParticle;
+    public float particleDuration = 1f;
+
     public virtual void Start()
     {
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
@@ -25,7 +29,14 @@ public class Coin : MonoBehaviour
             return;
         }
 
-        GameManager.instance.AddScore(coinValue);
+        GameObject particleEffect = Instantiate(coinParticle, transform.position, Quaternion.identity);
+
+        particleEffect.transform.SetParent(collider.transform);
+
+        particleEffect.transform.localPosition = new Vector3(0, 0.5f, 0);
+        Destroy(particleEffect, particleDuration);
+
+        PlayerScore.instance.AddScore(coinValue);
         Destroy(gameObject);
     }
 }

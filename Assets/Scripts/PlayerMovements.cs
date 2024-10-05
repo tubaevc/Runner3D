@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Events;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -15,18 +16,9 @@ public class PlayerMovements : MonoBehaviour
     public Transform groundCheck;
     [SerializeField] private Animator animator;
 
-    public bool isMagnetActive = false;
-    public float magnetDuration = 5f;
-    public float magnetRadius = 5f;
-
-
-    public float speedBoostMultiplier = 2f;
-    public float speedBoostDuration = 7f;
-    private bool isSpeedBoostActive = false;
-
     //for speedboost
     public float normalSpeed = 35f;
-    private float currentSpeed;
+    public float currentSpeed;
     private float originalSpeed;
 
     public float laneDistance = 5.0f;
@@ -45,6 +37,27 @@ public class PlayerMovements : MonoBehaviour
     private float originalColliderHeight;
     private Vector3 originalColliderCenter;
     private float slideColliderOffset = 0.5f;
+
+
+    private Speedboost speedBoost;
+    private Magnet magnet;
+
+    private void Awake()
+    {
+        speedBoost = GetComponent<Speedboost>();
+        magnet = GetComponent<Magnet>();
+        if (speedBoost == null)
+        {
+            speedBoost = gameObject.AddComponent<Speedboost>();
+            // Debug.Log("SpeedBoost component added dynamically.");
+        }
+
+        if (magnet == null)
+        {
+            magnet = gameObject.AddComponent<Magnet>();
+            //   Debug.Log("Magnet component added dynamically.");
+        }
+    }
 
     private void Start()
     {
@@ -129,11 +142,6 @@ public class PlayerMovements : MonoBehaviour
         }
 
         CheckGrounded();
-
-        if (isMagnetActive)
-        {
-            CollectNearbyCoins();
-        }
     }
 
     private IEnumerator ResetColliderAfterSlide()
@@ -144,24 +152,17 @@ public class PlayerMovements : MonoBehaviour
         playerCollider.center = originalColliderCenter;
     }
 
-    private void CollectNearbyCoins()
-    {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, magnetRadius);
-        foreach (var hitCollider in hitColliders)
-        {
-            if (hitCollider.CompareTag("Coin"))
-            {
-                hitCollider.transform.position = Vector3.MoveTowards(hitCollider.transform.position, transform.position,
-                    Time.deltaTime * 70f);
-            }
-        }
-    }
 
     public void Die()
     {
         alive = false;
         Debug.Log("player is dead");
-        Invoke("Restart", 2);
+
+        //check gameover
+        PlayerScore.instance.CheckGameOver();
+        //   PlayerEvents.OnPlayerDead?.Invoke();
+        Time.timeScale = 0;
+        // Debug.Log("OnPlayerDead event invoked");
     }
 
     private void Restart()
@@ -183,52 +184,14 @@ public class PlayerMovements : MonoBehaviour
     {
         if (other.CompareTag("Magnet"))
         {
-            ActivateMagnet();
+            magnet.ActivatePowerup(duration: 7f);
             Destroy(other.gameObject);
         }
 
         if (other.CompareTag("SpeedBoost"))
         {
-            ActivateSpeedBoost();
+            speedBoost.ActivatePowerup(duration: 7f);
             Destroy(other.gameObject);
         }
-    }
-
-
-    private void ActivateSpeedBoost()
-    {
-        if (!isSpeedBoostActive)
-        {
-            isSpeedBoostActive = true;
-            originalSpeed = currentSpeed; // keep the speed
-            currentSpeed *= speedBoostMultiplier;
-            StartCoroutine(DeactivateSpeedBoostAfterDelay());
-        }
-        else
-        {
-            // if already refresh time
-            StopCoroutine(DeactivateSpeedBoostAfterDelay());
-            StartCoroutine(DeactivateSpeedBoostAfterDelay());
-        }
-    }
-
-    private IEnumerator DeactivateSpeedBoostAfterDelay()
-    {
-        yield return new WaitForSeconds(speedBoostDuration);
-        isSpeedBoostActive = false;
-        currentSpeed = originalSpeed; // return the speed
-    }
-
-
-    private void ActivateMagnet()
-    {
-        isMagnetActive = true;
-        StartCoroutine(DeactivateMagnetAfterDelay());
-    }
-
-    private IEnumerator DeactivateMagnetAfterDelay()
-    {
-        yield return new WaitForSeconds(magnetDuration);
-        isMagnetActive = false;
     }
 }

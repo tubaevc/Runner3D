@@ -1,27 +1,25 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Events;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-    public int score = 0;
-    [SerializeField] private TMP_Text scoreText;
-    private bool isPowerupActive = false;
-    private Coroutine powerupCoroutine;
-    
-    // for 2x text
-    public delegate void PowerupStateChanged(bool isActive);
-    public static event PowerupStateChanged OnPowerupStateChanged;
-    [SerializeField] private TMP_Text powerupText;
+    public Camera MainCam { get; private set; }
+   
     void Awake()
     {
         if (instance == null)
         {
             instance = this;
+            DontDestroyOnLoad(gameObject); 
+            SceneManager.sceneLoaded += OnSceneLoaded;
+            RegisterEvents();
         }
         else
         {
@@ -29,34 +27,28 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void AddScore(int value)
+    private void OnSceneLoaded(Scene loadedScene, LoadSceneMode arg1)
     {
-        score += isPowerupActive ? value * 2 : value;
-        UpdateScoreUI();
-    }
-    public void ActivatePowerup(float duration)
-    {
-        if (powerupCoroutine != null)
+        if (loadedScene.name == "Main")
         {
-            StopCoroutine(powerupCoroutine);
+            MainCam = Camera.main;
         }
-        powerupCoroutine = StartCoroutine(PowerupTimer(duration));
     }
 
-    private IEnumerator PowerupTimer(float duration)
+    private static void LoadScene(string sceneName)
     {
-        SetPowerupState(true);
-        yield return new WaitForSeconds(duration);
-        SetPowerupState(false);
+        SceneManager.LoadScene(sceneName);
     }
-    private void SetPowerupState(bool isActive)
+
+    private void RegisterEvents()
     {
-        isPowerupActive = isActive;
-        OnPowerupStateChanged?.Invoke(isActive);
+        //Debug.Log("register NewGameBTN event");
+        MainMenuEvents.NewGameBTN += OnNewGameBTN;
     }
-    
-    void UpdateScoreUI()
+
+    private void OnNewGameBTN()
     {
-        scoreText.text = "Score: " + score.ToString();
+        //Debug.Log("NewGame event");
+        LoadScene("Main");
     }
 }

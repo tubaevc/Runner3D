@@ -7,13 +7,12 @@ using UnityEngine.UI;
 
 public class MultiplierCoin : Coin
 {
-    [SerializeField] private float multiplierDuration = 10f;
     private Collider coinCollider;
     private MeshRenderer meshRenderer;
 
     [SerializeField] private float powerupDuration = 10f;
 
-    private void Start()
+    public override void Start()
     {
         base.Start();
         coinCollider = GetComponent<Collider>();
@@ -24,7 +23,7 @@ public class MultiplierCoin : Coin
     {
         if (collider.gameObject.name == "Player")
         {
-            GameManager.instance.ActivatePowerup(powerupDuration);
+            PlayerScore.instance.ActivatePowerup(powerupDuration);
             Destroy(gameObject);
             coinCollider.enabled = false;
             meshRenderer.enabled = false;

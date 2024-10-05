@@ -98,9 +98,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bb943b5e1affd3439cb5a5c33f3b034, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turnSpeed: 90
   playerTransform: {fileID: 0}
-  moveSpeed: 17
+  coinValue: 1
+  coinParticle: {fileID: 1590415177872986601, guid: acdb90624a404aa438447006f1026065, type: 3}
+  particleDuration: 1
 --- !u!136 &7787178122626099518
 CapsuleCollider:
   m_ObjectHideFlags: 0

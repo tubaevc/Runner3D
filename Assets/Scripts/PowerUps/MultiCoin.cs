@@ -5,6 +5,7 @@ using UnityEngine;
 public class Multicoin : Coin
 {
     [SerializeField] private int multiCoinValue = 5;
+    private PlayerScore _playerScore;
 
     public override void Start()
     {
@@ -24,7 +25,7 @@ public class Multicoin : Coin
             return;
         }
 
-        GameManager.instance.AddScore(multiCoinValue);
+        PlayerScore.instance.AddScore(multiCoinValue);
         Destroy(gameObject);
     }
 }
